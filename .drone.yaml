@@ -1,0 +1,41 @@
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: greeting
+  image: alpine
+  settings:
+    namespace: cicd
+  commands:
+  - echo helloz
+  - echo worldz
+#- name: test
+#  image: node:alpine
+#  commands:
+#  - export PATH:$PATH:$(pwd)/node_modules/.bin
+#  - "npm install --prefix ./app"
+#  - apk add -U --no-cache git
+#  - mkdir /opt/app
+#  - cd /opt/app
+#  - export PATH:$PATH:/opt/app/node_modules/.bin
+#  - git clone https://github.com/xoneUpx/cedit .
+#  - echo done
+
+- name: docker
+  image: plugins/docker
+  settings:
+    #add_host:
+    # - repo.localhost:10.10.10.3
+    #username: xbobokx
+    #password: wazawazato1
+    insecure: true
+    dockerfile: Dockerfile.drone
+    repo: repo-service.cicd.svc:5000/test
+
+    #repo: xbobokx/test-cedit
+    registry: repo-service.cicd.svc:5000
+    #registry: repo.localhost:8080
+      
+      #- name: some tests
+      #- name: deploy to k8s
